@@ -221,26 +221,27 @@ class WebSearchTool:
         Uses duckduckgo-search library.
         """
         try:
-            from duckduckgo_search import AsyncDDGS
+            from asyncddgs import aDDGS
         except ImportError:
             raise ImportError(
                 "duckduckgo-search not installed. "
-                "Install with: pip install duckduckgo-search"
+                "Install with: pip install ddgs"
             )
         
-        ddgs = AsyncDDGS()
-        raw_results = await ddgs.text(query, max_results=num_results)
         
         results = []
-        for item in raw_results:
-            results.append(SearchResult(
-                title=item.get("title", ""),
-                url=item.get("href", ""),
-                snippet=item.get("body", ""),
-                source=self._extract_domain(item.get("href", "")),
-                published_date=None,
-                relevance_score=None
-            ))
+        async with aDDGS() as ddgs:
+            raw_results = await ddgs.text(query, max_results=num_results)
+
+            for item in raw_results:
+                results.append(SearchResult(
+                    title=item.get("title", ""),
+                    url=item.get("href", ""),
+                    snippet=item.get("body", ""),
+                    source=self._extract_domain(item.get("href", "")),
+                    published_date=None,
+                    relevance_score=None
+                ))
         
         logger.info(f"DuckDuckGo returned {len(results)} results")
         return results

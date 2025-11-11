@@ -35,7 +35,7 @@ async def test_duckduckgo():
     try:
         search = WebSearchTool(provider="duckduckgo")
         
-        query = "What is machine learning?"
+        query = "Algorithmic trading strategies"
         print(f"\nSearching for: '{query}'")
         print("Please wait...")
         

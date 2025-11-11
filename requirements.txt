@@ -1,19 +1,22 @@
 # Core dependencies for Multi-Agent Research System
-# Phase 1: Web Search Tool
+# Phase 1-2: Web Search Tool + Researcher Agent
 
-# Async HTTP client
+# Async HTTP client (for API calls and web search)
 aiohttp>=3.9.0
 
 # DuckDuckGo search (free option, no API key needed)
-duckduckgo-search>=4.0.0
+ddgs>=4.0.0
 
 # Environment variable management
 python-dotenv>=1.0.0
 
-# Logging and utilities
+# Data validation and structured outputs
 pydantic>=2.5.0
 
-# Testing (optional for now, but recommended)
+# Anthropic Claude API (for agents)
+anthropic>=0.18.0
+
+# Testing
 pytest>=7.4.0
 pytest-asyncio>=0.21.0
 pytest-cov>=4.1.0

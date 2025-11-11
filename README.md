@@ -75,8 +75,8 @@ This system orchestrates multiple specialized LLM agents that collaborate to con
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/multi-agent-research-system.git
-cd multi-agent-research-system
+git clone https://github.com/yourusername/research-agent-system.git
+cd research-agent-system
 
 # Create virtual environment
 python -m venv venv

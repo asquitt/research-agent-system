@@ -1,0 +1,7 @@
+To Do:
+1. Add more tools: Code executor, calculator, PDF reader
+2. Add more agents: Planner agent, critic agent
+3. Add memory: Store past research for context
+4. Add streaming: Real-time updates as agents work
+5. Build a web UI: Flask/FastAPI frontend
+6. Deploy it: Docker, AWS Lambda, etc.

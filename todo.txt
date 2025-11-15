@@ -5,3 +5,49 @@ To Do:
 4. Add streaming: Real-time updates as agents work
 5. Build a web UI: Flask/FastAPI frontend
 6. Deploy it: Docker, AWS Lambda, etc.
+
+Example agent ideas:
+Auto-triage engineering tickets
+Auto-investigate cloud alerts
+Auto-generate PR reviews + fix suggestions
+Auto-summarize logs from distributed systems
+
+Level-up:
+Implement ReAct, Tree-of-Thought, and custom search policy.
+
+Strategic Agents:
+
+Planner - Breaks complex queries into subtasks before research starts
+Critic - Reviews final output for gaps, errors, contradictions
+Query Refinement - Improves vague queries before research
+
+Tool-Focused Agents:
+
+Code Executor - Runs Python/JS for calculations, data analysis
+Data Analyst - Processes CSVs, creates visualizations, statistics
+Document Reader - Extracts from PDFs, Word docs, presentations
+API Agent - Calls external APIs (weather, finance, databases)
+
+Specialized Research:
+
+Academic Agent - Searches arXiv, Google Scholar, PubMed
+News Agent - Focused on recent news, trends, events
+Social Listening - Twitter/Reddit sentiment, discussions
+Comparison Agent - Side-by-side analysis of options
+
+Quality Control:
+
+Fact Checker - Cross-references claims against trusted sources
+Bias Detector - Identifies political/commercial bias
+Citation Formatter - Proper academic citations
+
+Output Enhancement:
+
+Visualizer - Creates charts, diagrams from data
+Summary Agent - Different formats (ELI5, technical, executive)
+Translation Agent - Multi-language research
+
+Memory/Context:
+
+Memory Agent - Stores past research, learns user preferences
+Context Manager - Maintains conversation history across sessions

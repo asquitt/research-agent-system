@@ -11,9 +11,12 @@ from dataclasses import dataclass, field
 from datetime import datetime
 
 from ..tools.web_search import WebSearchTool
+from ..tools.code_executor import CodeExecutorTool
+from ..tools.api_agent import APIAgentTool
 from ..agents.researcher import ResearcherAgent, ResearchResult
 from ..agents.validator import ValidatorAgent
 from ..agents.synthesizer import SynthesizerAgent, SynthesizedReport
+from ..agents.planner import PlannerAgent
 
 logger = logging.getLogger(__name__)
 
@@ -64,15 +67,17 @@ class ResearchOrchestrator:
     Orchestrates multiple agents to complete comprehensive research tasks.
     
     Workflow:
-    1. Planner/Researcher: Gathers information
-    2. Validator: Checks credibility and accuracy
-    3. Synthesizer: Creates final report
+    1. Optional: Planner creates research plan
+    2. Researcher: Gathers information
+    3. Optional: Validator checks credibility
+    4. Synthesizer: Creates final report
     """
     
     def __init__(
         self,
         search_provider: str = "duckduckgo",
         use_validation: bool = True,
+        use_planner: bool = False,
         max_searches: int = 3
     ):
         """
@@ -80,19 +85,31 @@ class ResearchOrchestrator:
         
         Args:
             search_provider: Which search provider to use
-            use_validation: Whether to validate findings (costs more but better quality)
+            use_validation: Whether to validate findings
+            use_planner: Whether to use planner for complex queries
             max_searches: Maximum number of searches per query
         """
         self.use_validation = use_validation
+        self.use_planner = use_planner
         
         # Initialize tools
-        logger.info(f"Initializing search tool: {search_provider}")
+        logger.info(f"Initializing tools...")
         self.search_tool = WebSearchTool(provider=search_provider)
+        self.code_executor = CodeExecutorTool()
+        self.api_agent = APIAgentTool()
         
         # Initialize agents
         logger.info("Initializing agents...")
+        
+        if use_planner:
+            self.planner = PlannerAgent()
+        else:
+            self.planner = None
+        
         self.researcher = ResearcherAgent(max_searches=max_searches)
         self.researcher.register_tool("web_search", self.search_tool)
+        self.researcher.register_tool("code_executor", self.code_executor)
+        self.researcher.register_tool("api_agent", self.api_agent)
         
         if use_validation:
             self.validator = ValidatorAgent()
@@ -124,6 +141,13 @@ class ResearchOrchestrator:
         """
         start_time = datetime.now()
         logger.info(f"Starting research: '{query}' (depth: {depth})")
+        
+        # Optional: Use planner for complex queries
+        plan = None
+        if self.use_planner and self.planner and depth == "comprehensive":
+            logger.info("STEP 0: Creating research plan...")
+            plan = await self.planner.plan(query)
+            logger.info(f"Plan created: {len(plan.tasks)} tasks, complexity={plan.complexity}")
         
         # Adjust parameters based on depth
         if depth == "quick":
@@ -181,6 +205,7 @@ class ResearchOrchestrator:
                 "duration_seconds": duration,
                 "depth": depth,
                 "validation_used": self.use_validation,
+                "planner_used": self.use_planner and plan is not None,
                 "num_findings": len(research_result.findings),
                 "num_sources": len(research_result.sources)
             }
@@ -249,10 +274,11 @@ Key Insights:
 async def demo():
     """Demonstrate the full orchestrated research workflow."""
     
-    # Initialize orchestrator
+    # Initialize orchestrator with new features
     orchestrator = ResearchOrchestrator(
         search_provider="duckduckgo",
-        use_validation=True,  # Turn off to save costs
+        use_validation=True,
+        use_planner=True,  # Enable planner
         max_searches=2
     )
     

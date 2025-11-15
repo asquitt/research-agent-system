@@ -70,9 +70,9 @@ class Agent(ABC):
         self,
         name: str,
         role: str,
-        model: str = "claude-sonnet-4-20250514",
+        model: str = "claude-haiku-4-5-20251001",
         temperature: float = 0.7,
-        max_tokens: int = 4000,
+        max_tokens: int = 2000,
         api_key: Optional[str] = None
     ):
         self.name = name

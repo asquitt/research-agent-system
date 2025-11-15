@@ -69,7 +69,7 @@ class ValidatorAgent(Agent):
     
     def __init__(
         self,
-        model: str = "claude-sonnet-4-20250514",  # Using Sonnet (Haiku: claude-haiku-4-5-20251001)
+        model: str = "claude-haiku-4-5-20251001",  # Using Sonnet (Sonnet: claude-sonnet-4-20250514)
         temperature: float = 0.1  # Low temperature for consistent evaluation
     ):
         super().__init__(

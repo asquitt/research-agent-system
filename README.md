@@ -514,9 +514,9 @@ If you use this system in your research, please cite:
 ```bibtex
 @software{multi_agent_research_system,
   title={Multi-Agent Research System},
-  author={Your Name},
+  author={Demario Asquitt},
   year={2025},
-  url={https://github.com/yourusername/multi-agent-research-system}
+  url={https://github.com/asquitt/research-agent-system}
 }
 ```
 
